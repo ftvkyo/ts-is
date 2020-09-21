@@ -1,3 +1,6 @@
+const util = require("util");
+
+
 const defaultImplementation = undefined;
 
 class TypeAssertionError extends Error {

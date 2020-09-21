@@ -13,12 +13,14 @@
     "build": "tsc --project tsconfig.json",
     "lint": "tslint --project tsconfig.json && tslint --project tsconfig.test.json",
     "fix": "tslint --project tsconfig.json --fix && tslint --project tsconfig.test.json --fix",
-    "test": "yarn run lint && yarn run build && ttsc --project tsconfig.test.json && jest"
+    "test": "yarn run lint && yarn run build && ttsc --project tsconfig.test.json && jest",
+    "rm": "rimraf build-lib && rimraf build-test"
   },
   "devDependencies": {
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.1",
     "jest": "^26.4.2",
+    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "tslint": "^6.1.3",
     "ttypescript": "^1.5.12",
