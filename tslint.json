@@ -1,0 +1,32 @@
+{
+    "extends": "tslint:recommended",
+    "rules": {
+        "no-for-in": true,
+
+        "ban-comma-operator": true,
+        "curly": true,
+        "no-conditional-assignment": true,
+        "triple-equals": true,
+
+        "cyclomatic-complexity": true,
+        "deprecation": true,
+
+        "eofline": true,
+        "indent": [true, "spaces", 4],
+        "linebreak-style": [true, "LF"],
+        "no-trailing-whitespace": true,
+        "quotemark": [true, "double"],
+        "semicolon": [true, "always"],
+        "whitespace": [
+            true,
+            "check-branch",
+            "check-decl",
+            "check-module",
+            "check-separator",
+            "check-type",
+            "check-typecast",
+            "check-type-operator",
+            "check-preblock"
+        ]
+    }
+}
