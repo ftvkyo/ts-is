@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "lib": [
+            "es6"
+        ],
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "removeComments": false,
+        "declaration": true,
+        "strict": true,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "outDir": "build-unittest",
+    },
+    "include": [
+        "unittest"
+    ]
+}

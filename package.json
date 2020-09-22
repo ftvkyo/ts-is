@@ -11,10 +11,10 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc --project tsconfig.json",
-    "lint": "tslint --project tsconfig.json && tslint --project tsconfig.test.json",
-    "fix": "tslint --project tsconfig.json --fix && tslint --project tsconfig.test.json --fix",
-    "test": "yarn run lint && yarn run build && ttsc --project tsconfig.test.json && jest",
-    "rm": "rimraf build-lib && rimraf build-test"
+    "lint": "tslint --project tsconfig.json && tslint --project tsconfig.test.json && tslint --project tsconfig.unittest.json",
+    "fix": "tslint --project tsconfig.json --fix && tslint --project tsconfig.test.json --fix && tslint --project tsconfig.unittest.json --fix",
+    "test": "yarn run rm && yarn run lint && yarn run build && ttsc --project tsconfig.test.json && tsc --project tsconfig.unittest.json && jest",
+    "rm": "rimraf build-lib && rimraf build-test && rimraf build-unittest"
   },
   "devDependencies": {
     "@types/jest": "^26.0.14",

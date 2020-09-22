@@ -3,7 +3,7 @@ import * as path from "path";
 import * as assert from "assert";
 
 import { log } from "./debug";
-import * as create from "./typecheck/create";
+import * as typecheck from "./typecheck/main";
 
 
 type Entrypoint = ts.CallExpression;
@@ -92,7 +92,7 @@ function entrypointTransformer(node: Entrypoint, ctx: ts.TransformationContext):
         node.expression,
         node.typeArguments,
         node.arguments.concat([
-            create.createTypecheck(node.typeArguments[0], ctx)
+            typecheck.getTypecheckExpression(node.typeArguments[0], ctx)
         ])
     );
 }

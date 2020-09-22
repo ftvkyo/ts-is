@@ -2,6 +2,7 @@
     "extends": "tslint:recommended",
     "rules": {
         "no-for-in": true,
+        "no-namespace": false,
 
         "ban-comma-operator": true,
         "curly": true,
