@@ -1,28 +1,12 @@
 import * as ts from "typescript";
 
-import * as types from "./types";
+import * as flat from "./framework/types/flat";
+import * as tree from "./framework/types/tree";
+import * as generation from "./framework/generation";
 import * as util from "./util";
 
-import { Primitive } from "./primitive";
 
-
-const GENERATORS: types.tree.TypecheckGenerator[] = [
-    new Primitive()
-];
-
-
-function generateTypecheck(t: ts.TypeNode, ctx: ts.TransformationContext): types.tree.Typecheck {
-    for (const generator of GENERATORS) {
-        if (generator.predicate(t, ctx)) {
-            return generator.generator(t, ctx);
-        }
-    }
-
-    throw new Error("Unimplemented");
-}
-
-
-function flattenTypecheck(typecheck: types.tree.Typecheck, fts: types.flat.FunctionTypecheck[], ctx: ts.TransformationContext) {
+function flattenTypecheck(typecheck: tree.Typecheck, fts: flat.FunctionTypecheck[], ctx: ts.TransformationContext) {
     const obj = ctx.factory.createIdentifier("obj");
 
     if ("deps" in typecheck) {
@@ -77,9 +61,9 @@ function flattenTypecheck(typecheck: types.tree.Typecheck, fts: types.flat.Funct
 
 
 export function getTypecheckExpression(t: ts.TypeNode, ctx: ts.TransformationContext): ts.Expression {
-    const treeTypecheck = generateTypecheck(t, ctx);
+    const treeTypecheck = generation.generateTypecheck(t, ctx);
 
-    const flatTypechecks: types.flat.FunctionTypecheck[] = [];
+    const flatTypechecks: flat.FunctionTypecheck[] = [];
     flattenTypecheck(treeTypecheck, flatTypechecks, ctx);
     if (flatTypechecks.length === 0) {
         throw new Error("We have got 0 typechecks generated. Should not be possible.");

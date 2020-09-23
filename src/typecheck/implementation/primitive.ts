@@ -1,7 +1,7 @@
 import * as ts from "typescript";
 
-import { createPredicate } from "./util";
-import * as types from "./types";
+import { createPredicate } from "../util";
+import * as tree from "../framework/types/tree";
 
 
 function getType(t: ts.TypeNode): string | undefined {
@@ -24,7 +24,7 @@ function getType(t: ts.TypeNode): string | undefined {
 }
 
 
-export class Primitive implements types.tree.TypecheckGenerator {
+export class Primitive implements tree.TypecheckGenerator {
     predicate(t: ts.TypeNode, ctx: ts.TransformationContext): boolean {
         return getType(t) !== undefined;
     }
@@ -36,11 +36,11 @@ export class Primitive implements types.tree.TypecheckGenerator {
      * (obj: any): boolean => { return typeof obj === "t"; }
      * ```
      */
-    generator(t: ts.TypeNode, ctx: ts.TransformationContext): types.tree.Typecheck {
+    generator(t: ts.TypeNode, ctx: ts.TransformationContext): tree.Typecheck {
         const typeString = getType(t)!;
 
         const objIdentifier = ctx.factory.createIdentifier("obj");
-        const typecheck: types.tree.LeafTypecheck = {
+        const typecheck: tree.LeafTypecheck = {
             t,
             f: createPredicate(
                 objIdentifier,
