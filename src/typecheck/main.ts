@@ -9,36 +9,83 @@ import * as util from "./util";
 function flattenTypecheck(typecheck: tree.Typecheck, fts: flat.FunctionTypecheck[], ctx: ts.TransformationContext) {
     const obj = ctx.factory.createIdentifier("obj");
 
-    if ("deps" in typecheck) {
+    if ("all" in typecheck) {
         // BranchTypecheck
-        if (typecheck.deps.length === 0) {
+        if (typecheck.all.length === 0 && typecheck.any.length === 0) {
             throw new Error("BranchTypecheck can't have zero dependencies, or it's useless.");
         }
 
-        for (const dep of typecheck.deps) {
-            flattenTypecheck(dep, fts, ctx);
+        let allBody: ts.Expression | undefined;
+        let anyBody: ts.Expression | undefined;
+
+        // TODO: move to a function
+        if (typecheck.all.length !== 0) {
+            for (const dep of typecheck.all) {
+                flattenTypecheck(dep, fts, ctx);
+            }
+
+            let allProcessed = 1;
+            allBody = ctx.factory.createCallExpression(
+                fts[fts.length - allProcessed].name,
+                undefined,
+                [obj]
+            );
+
+            while (allProcessed < typecheck.all.length) {
+                allProcessed += 1;
+
+                allBody = ctx.factory.createLogicalAnd(
+                    allBody,
+                    ctx.factory.createCallExpression(
+                        fts[fts.length - allProcessed].name,
+                        undefined,
+                        [obj]
+                    )
+                );
+            }
         }
 
-        let processed = 1;
+        if (typecheck.any.length !== 0) {
+            for (const dep of typecheck.any) {
+                flattenTypecheck(dep, fts, ctx);
+            }
 
-        let body: ts.Expression = ctx.factory.createCallExpression(
-            fts[fts.length - processed].name,
-            undefined,
-            [obj]
-        );
+            let anyProcessed = 1;
+            anyBody = ctx.factory.createCallExpression(
+                fts[fts.length - anyProcessed].name,
+                undefined,
+                [obj]
+            );
 
-        while (processed < typecheck.deps.length) {
-            processed += 1;
+            while (anyProcessed < typecheck.any.length) {
+                anyProcessed += 1;
 
+                anyBody = ctx.factory.createLogicalOr(
+                    anyBody,
+                    ctx.factory.createCallExpression(
+                        fts[fts.length - anyProcessed].name,
+                        undefined,
+                        [obj]
+                    )
+                );
+            }
+        }
+
+
+        let body: ts.Expression | undefined = allBody;
+        if (body === undefined) {
+            body = anyBody;
+        } else if (anyBody !== undefined) {
             body = ctx.factory.createLogicalAnd(
                 body,
-                ctx.factory.createCallExpression(
-                    fts[fts.length - processed].name,
-                    undefined,
-                    [obj]
-                )
+                anyBody
             );
         }
+
+        if (body === undefined) {
+            throw new Error("Unreachable");
+        }
+
 
         fts.push({
             name: ctx.factory.createIdentifier(util.makeUniqueId("typecheck_")),

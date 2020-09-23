@@ -1,4 +1,4 @@
-import { createIs } from "../index";
+import { createIs } from "../../index";
 
 
 describe("createIs on primitives", () => {
