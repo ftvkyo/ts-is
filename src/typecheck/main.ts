@@ -71,7 +71,6 @@ export function getTypecheckExpression(t: ts.TypeNode, ctx: ts.TransformationCon
 
     const obj = ctx.factory.createIdentifier("obj");
 
-    flatTypechecks.reverse();
     const statements: ts.Statement[] = [];
     for (const tc of flatTypechecks) {
         statements.push(ctx.factory.createVariableStatement(
@@ -98,7 +97,7 @@ export function getTypecheckExpression(t: ts.TypeNode, ctx: ts.TransformationCon
 
     statements.push(ctx.factory.createReturnStatement(
         ctx.factory.createCallExpression(
-            flatTypechecks[0].name,
+            flatTypechecks[flatTypechecks.length - 1].name,
             undefined,
             [obj]
         )
