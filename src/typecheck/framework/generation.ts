@@ -5,12 +5,14 @@ import * as util from "util";
 import * as tree from "./types/tree";
 
 import { Primitive } from "../implementation/primitive";
+import { Intersection } from "../implementation/intersection";
 import { Union } from "../implementation/union";
 
 
 const GENERATORS: tree.TypecheckGenerator[] = [
     new Primitive(),
     new Union(),
+    new Intersection(),
 ];
 
 
