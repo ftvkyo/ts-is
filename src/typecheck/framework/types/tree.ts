@@ -9,7 +9,8 @@ export interface LeafTypecheck {
 
 export interface BranchTypecheck {
     t: ts.TypeNode;
-    deps: (LeafTypecheck | BranchTypecheck)[];
+    all: (LeafTypecheck | BranchTypecheck)[];
+    any: (LeafTypecheck | BranchTypecheck)[];
 }
 
 

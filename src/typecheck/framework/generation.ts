@@ -1,12 +1,16 @@
 import * as ts from "typescript";
+import * as util from "util";
 
 
 import * as tree from "./types/tree";
+
 import { Primitive } from "../implementation/primitive";
+import { Union } from "../implementation/union";
 
 
 const GENERATORS: tree.TypecheckGenerator[] = [
-    new Primitive()
+    new Primitive(),
+    new Union(),
 ];
 
 
@@ -17,5 +21,5 @@ export function generateTypecheck(t: ts.TypeNode, ctx: ts.TransformationContext)
         }
     }
 
-    throw new Error("Unimplemented");
+    throw new Error("Unimplemented. TypeNode: " + util.inspect(t));
 }

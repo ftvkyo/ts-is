@@ -1,4 +1,4 @@
-import { createAssertType, TypeAssertionError } from "../index";
+import { createAssertType, TypeAssertionError } from "../../index";
 
 
 describe("createAssertType on primitives", () => {

@@ -29,13 +29,6 @@ export class Primitive implements tree.TypecheckGenerator {
         return getType(t) !== undefined;
     }
 
-    /**
-     * Creates a function that looks like:
-     *
-     * ```
-     * (obj: any): boolean => { return typeof obj === "t"; }
-     * ```
-     */
     generator(t: ts.TypeNode, ctx: ts.TransformationContext): tree.Typecheck {
         const typeString = getType(t)!;
 
